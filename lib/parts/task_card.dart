@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+class TaskCard extends StatelessWidget {
+  const TaskCard({
+    super.key,
+    required this.task,
+  });
+
+  final String task;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      child: ListTile(
+        leading: const Icon(Icons.comment),
+        title: Center(child: Text(task)),
+        trailing: RatingBar(
+          glow: false,
+          allowHalfRating: true,
+          itemSize: 25,
+          onRatingUpdate: (value) {
+            debugPrint('$value');
+          },
+          ratingWidget: RatingWidget(
+            full: const Icon(
+              Icons.star,
+              // color: Colors.yellow,
+            ),
+            half: const Icon(
+              Icons.star_half,
+              // color: Colors.yellow,
+            ),
+            empty: const Icon(
+              Icons.star_border,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
