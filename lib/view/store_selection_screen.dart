@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:quality_control_app/common/component/simple_card_item.dart';
 import 'package:quality_control_app/view/checklist_list.dart';
 
@@ -61,12 +62,19 @@ class StoreSelectionScreen extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        // ListView.builder(
-        //   itemCount: 5,
-        //   itemBuilder: (context, index) {
-        //     return null;
-        //   },
-        // )
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            shrinkWrap: true,
+            itemCount: 20,
+            itemBuilder: (context, index) {
+              return const SimpleCardItem(text: 'tipo de checklist');
+            },
+          ),
+        )
       ],
     );
   }
