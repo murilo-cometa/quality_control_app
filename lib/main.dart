@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quality_control_app/screens/store_selection_screen.dart';
+import 'package:quality_control_app/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StoreSelectionScreen(),
+      home: HomeScreen(),
     );
   }
 }
