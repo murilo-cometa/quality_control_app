@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quality_control_app/common/component/simple_card_item.dart';
-import 'package:quality_control_app/common/library/custom_navigator.dart';
 import 'package:quality_control_app/view/checklist_list.dart';
 
 class StoreSelectionScreen extends StatelessWidget {
