@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quality_control_app/view/store_selection_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,23 +17,28 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(10.0),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             Card(
               child: ListTile(
-                title: Text(
+                trailing: const Icon(Icons.arrow_forward),
+                title: const Text(
                   'Aplicar checklist',
                   style: TextStyle(
                     fontSize: 30,
                   ),
                 ),
-                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const StoreSelectionScreen();
+                  },),);
+                },
               ),
             ),
-            Divider(),
-            Card(
+            const Divider(),
+            const Card(
               child: ListTile(
                 title: Text(
                   'Checklists aplicados',

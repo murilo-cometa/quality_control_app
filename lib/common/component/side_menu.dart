@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quality_control_app/screens/checklist_list.dart';
+import 'package:quality_control_app/view/checklist_list.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});

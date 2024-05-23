@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quality_control_app/home_screen.dart';
+import 'package:quality_control_app/view/home_screen.dart';
 
 void main() {
   runApp(const MainApp());

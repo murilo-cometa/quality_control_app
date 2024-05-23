@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:quality_control_app/parts/task_card.dart';
+import 'package:quality_control_app/common/component/task_card.dart';
 
 class ChecklistList extends StatefulWidget {
   const ChecklistList({
@@ -31,7 +31,12 @@ class _ChecklistListState extends State<ChecklistList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
-        title: Text('Checklist da loja ${widget.storeCode}'),
+        title: Text(
+          'Checklist da loja ${widget.storeCode}',
+          style: const TextStyle(
+            fontSize: 30,
+          ),
+        ),
       ),
       floatingActionButton: _floatingActionButton(),
       body: Column(
@@ -50,29 +55,28 @@ class _ChecklistListState extends State<ChecklistList> {
           const Divider(),
           Expanded(
             child: SizedBox(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(left: 10,right: 10),
-                itemCount: setoresCards.length,
-                itemBuilder: (context, index) {
-                  return setoresCards[index];
-                },
-              )
-            ),
+                child: ListView.builder(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              itemCount: setoresCards.length,
+              itemBuilder: (context, index) {
+                return setoresCards[index];
+              },
+            )),
           ),
         ],
       ),
     );
   }
 
-  Widget _floatingActionButton(){
+  Widget _floatingActionButton() {
     return FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          setState(() {
-            setoresCards = setoresCards + [setores[_random.nextInt(setores.length)]];
-          });
-        },
-      );
+      child: const Icon(Icons.add),
+      onPressed: () {
+        setState(() {
+          setoresCards =
+              setoresCards + [setores[_random.nextInt(setores.length)]];
+        });
+      },
+    );
   }
-
 }
