@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:

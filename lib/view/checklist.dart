@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:quality_control_app/common/component/task_card.dart';
 
-class ChecklistList extends StatefulWidget {
-  const ChecklistList({
+class Checklist extends StatefulWidget {
+  const Checklist({
     super.key,
     required this.storeCode,
     required this.checklistType,
@@ -13,10 +13,10 @@ class ChecklistList extends StatefulWidget {
   final int storeCode;
 
   @override
-  State<ChecklistList> createState() => _ChecklistListState();
+  State<Checklist> createState() => _ChecklistState();
 }
 
-class _ChecklistListState extends State<ChecklistList> {
+class _ChecklistState extends State<Checklist> {
   final _random = Random();
 
   final List<Widget> setores = [
@@ -34,7 +34,7 @@ class _ChecklistListState extends State<ChecklistList> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
         title: Text(
-          'Aplicando checklist ${widget.checklistType} na loja ${widget.storeCode}',
+          'Checklist ${widget.checklistType} na loja ${widget.storeCode}',
           style: const TextStyle(
             fontSize: 30,
           ),

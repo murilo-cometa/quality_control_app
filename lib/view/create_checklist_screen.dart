@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
-import 'package:quality_control_app/view/checklist_list.dart';
+import 'package:quality_control_app/view/checklist.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
   const CreateChecklistScreen({super.key});
@@ -11,7 +12,7 @@ class CreateChecklistScreen extends StatefulWidget {
 }
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
-  int _selectedStore = -1;
+  int _selectedStore = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
         centerTitle: true,
         title: const Text(
-          'Cometa Checklists',
+          'Criar Checklist',
           style: TextStyle(
             fontSize: 30,
           ),
@@ -39,34 +40,57 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             fontSize: 20,
           ),
         ),
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: 10,
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
+        NumberPicker(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.blue
+            )
           ),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
-            childAspectRatio: 2,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 2,
-          ),
-          itemBuilder: (context, index) {
-            int storeCode = index + 1;
-            bool selected = storeCode == _selectedStore;
-            return SimpleSelectableCardItem(
-              text: 'loja $storeCode',
-              selected: selected,
-              cardColor: selected ? Colors.green : null,
-              onTap: () {
-                setState(() {
-                  _selectedStore = storeCode;
-                });
-              },
-            );
+          infiniteLoop: true,
+          itemWidth: 70,
+          itemCount: 5,
+          axis: Axis.horizontal,
+          minValue: 1,
+          maxValue: 40,
+          value: _selectedStore,
+          onChanged: (value) {
+            setState(() {
+              _selectedStore = value;
+            });
           },
         ),
+        // SizedBox(
+        //   height: 200,
+        //   child: GridView.builder(
+        //     shrinkWrap: true,
+        //     itemCount: 40,
+        //     padding: const EdgeInsets.only(
+        //       left: 10,
+        //       right: 10,
+        //     ),
+        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //       crossAxisCount: 5,
+        //       childAspectRatio: 2,
+        //       crossAxisSpacing: 2,
+        //       mainAxisSpacing: 2,
+        //     ),
+        //     itemBuilder: (context, index) {
+        //       int storeCode = index + 1;
+        //       bool selected = storeCode == _selectedStore;
+        //       return SimpleSelectableCardItem(
+        //         text: 'loja $storeCode',
+        //         selected: selected,
+        //         cardColor: selected ? Colors.green : null,
+        //         onTap: () {
+        //           setState(() {
+        //             _selectedStore = storeCode;
+        //           });
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
         const Divider(),
         const Text(
           'Escolha a o tipo de checklist',
@@ -88,7 +112,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
               return SimpleNavigatingCardItem(
                 enabled: enabled,
                 text: 'tipo de checklist $checklistType',
-                goTo: ChecklistList(
+                goTo: Checklist(
                   storeCode: _selectedStore,
                   checklistType: checklistType,
                 ),
