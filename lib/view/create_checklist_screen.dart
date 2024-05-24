@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:quality_control_app/common/component/simple_card_item.dart';
+import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
+import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
 import 'package:quality_control_app/view/checklist_list.dart';
 
-class StoreSelectionScreen extends StatelessWidget {
-  const StoreSelectionScreen({super.key});
+class CreateChecklistScreen extends StatefulWidget {
+  const CreateChecklistScreen({super.key});
+
+  @override
+  State<CreateChecklistScreen> createState() => _CreateChecklistScreenState();
+}
+
+class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
+  int _selectedStore = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +54,16 @@ class StoreSelectionScreen extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             int storeCode = index + 1;
-            return SimpleCardItem(
+            bool selected = storeCode == _selectedStore;
+            return SimpleSelectableCardItem(
               text: 'loja $storeCode',
-              goTo: ChecklistList(
-                storeCode: storeCode,
-              ),
+              selected: selected,
+              cardColor: selected ? Colors.green : null,
+              onTap: () {
+                setState(() {
+                  _selectedStore = storeCode;
+                });
+              },
             );
           },
         ),
@@ -64,14 +76,23 @@ class StoreSelectionScreen extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 20,
             padding: const EdgeInsets.only(
               left: 10,
               right: 10,
             ),
-            shrinkWrap: true,
-            itemCount: 20,
             itemBuilder: (context, index) {
-              return const SimpleCardItem(text: 'tipo de checklist');
+              int checklistType = index + 1;
+              bool enabled = _selectedStore != -1;
+              return SimpleNavigatingCardItem(
+                enabled: enabled,
+                text: 'tipo de checklist $checklistType',
+                goTo: ChecklistList(
+                  storeCode: _selectedStore,
+                  checklistType: checklistType,
+                ),
+              );
             },
           ),
         )

@@ -39,6 +39,7 @@ class SideMenu extends StatelessWidget {
                             builder: (BuildContext context) {
                               return ChecklistList(
                                 storeCode: storeCode,
+                                checklistType: 2,
                               );
                             },
                           ),

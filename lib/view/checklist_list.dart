@@ -6,8 +6,10 @@ class ChecklistList extends StatefulWidget {
   const ChecklistList({
     super.key,
     required this.storeCode,
+    required this.checklistType,
   });
 
+  final int checklistType;
   final int storeCode;
 
   @override
@@ -32,7 +34,7 @@ class _ChecklistListState extends State<ChecklistList> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
         title: Text(
-          'Checklist da loja ${widget.storeCode}',
+          'Aplicando checklist ${widget.checklistType} na loja ${widget.storeCode}',
           style: const TextStyle(
             fontSize: 30,
           ),
