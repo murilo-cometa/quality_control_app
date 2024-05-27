@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
+import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
 import 'package:quality_control_app/view/checklist.dart';
 
@@ -17,16 +17,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 232, 164),
-        centerTitle: true,
-        title: const Text(
-          'Criar Checklist',
-          style: TextStyle(
-            fontSize: 30,
-          ),
-        ),
-      ),
+      appBar: CustomAppBar.build('Criar Checklist'),
       body: _buildBody(),
     );
   }
@@ -41,6 +32,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
           ),
         ),
         NumberPicker(
+          haptics: true,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
