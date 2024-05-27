@@ -52,37 +52,6 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             });
           },
         ),
-        // SizedBox(
-        //   height: 200,
-        //   child: GridView.builder(
-        //     shrinkWrap: true,
-        //     itemCount: 40,
-        //     padding: const EdgeInsets.only(
-        //       left: 10,
-        //       right: 10,
-        //     ),
-        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //       crossAxisCount: 5,
-        //       childAspectRatio: 2,
-        //       crossAxisSpacing: 2,
-        //       mainAxisSpacing: 2,
-        //     ),
-        //     itemBuilder: (context, index) {
-        //       int storeCode = index + 1;
-        //       bool selected = storeCode == _selectedStore;
-        //       return SimpleSelectableCardItem(
-        //         text: 'loja $storeCode',
-        //         selected: selected,
-        //         cardColor: selected ? Colors.green : null,
-        //         onTap: () {
-        //           setState(() {
-        //             _selectedStore = storeCode;
-        //           });
-        //         },
-        //       );
-        //     },
-        //   ),
-        // ),
         const Divider(),
         const Text(
           'Escolha a o tipo de checklist',
