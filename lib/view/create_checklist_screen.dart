@@ -69,9 +69,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             ),
             itemBuilder: (context, index) {
               int checklistType = index + 1;
-              bool enabled = _selectedStore != -1;
               return SimpleNavigatingCardItem(
-                enabled: enabled,
                 text: 'tipo de checklist $checklistType',
                 goTo: Checklist(
                   storeCode: _selectedStore,
