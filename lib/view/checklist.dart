@@ -29,7 +29,13 @@ class _ChecklistState extends State<Checklist> {
     const TaskCard(task: 'devolução de itens'),
     const TaskCard(task: 'Pontos extras'),
   ];
-  List<Widget> _setoresCards = [];
+  List<Widget> _setoresCards = [
+    const TaskCard(task: 'Qualidade do pão'),
+    const TaskCard(task: 'Moscas na carne'),
+    const TaskCard(task: 'Validade dos vinhos'),
+    const TaskCard(task: 'devolução de itens'),
+    const TaskCard(task: 'Pontos extras'),
+    ];
 
   @override
   Widget build(BuildContext context) {

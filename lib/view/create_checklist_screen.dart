@@ -17,7 +17,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build('Criar Checklist'),
+      appBar: CustomAppBar.build('Atribuir Checklist'),
       body: _buildBody(),
     );
   }
@@ -25,19 +25,20 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
   Widget _buildBody() {
     return Column(
       children: [
-        const Text(
-          'Escolha a loja',
-          style: TextStyle(
-            fontSize: 20,
+        const SizedBox(
+          height: 35,
+          child: Text(
+            'Escolha a loja',
+            style: TextStyle(
+              fontSize: 20,
+            ),
           ),
         ),
         NumberPicker(
           haptics: true,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: Colors.blue
-            )
+            border: Border.all(color: Colors.blue),
           ),
           infiniteLoop: true,
           itemWidth: 70,
@@ -52,11 +53,29 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             });
           },
         ),
-        const Divider(),
-        const Text(
-          'Escolha a o tipo de checklist',
-          style: TextStyle(
-            fontSize: 20,
+        const Divider(),//--------------------------------------------------------------------------------------------
+        SizedBox(
+          height: 45,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text(
+                'Escolha a o tipo de checklist',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.add_circle_outline),
+                label: const Text(
+                  'Adicionar',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ],
           ),
         ),
         Expanded(
