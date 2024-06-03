@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
 
 class ChecklistDetailsScreen extends StatefulWidget {
@@ -31,7 +30,22 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build('Detalhes do checklist'),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 255, 232, 164),
+        centerTitle: true,
+        title: const Text(
+          'Detalhes do checklist',
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, finalRating);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -84,7 +98,11 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
               glow: false,
               allowHalfRating: true,
               itemSize: 30,
-              onRatingUpdate: (value) {},
+              onRatingUpdate: (value) {
+                setState(() {
+                  finalRating = value;
+                });
+              },
               ratingWidget: RatingWidget(
                 full: const Icon(
                   Icons.star,

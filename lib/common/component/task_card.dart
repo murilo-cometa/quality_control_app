@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:quality_control_app/common/library/custom_navigator.dart';
 import 'package:quality_control_app/view/checklist_details_screen.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({
     super.key,
     required this.task,
-    this.description, 
+    this.description,
   });
 
   final String task;
@@ -51,15 +50,21 @@ class _TaskCardState extends State<TaskCard> {
             ),
           ),
         ),
-        onTap: () {
-          CustomNavigator.goTo(
-            context: context,
-            destination: ChecklistDetailsScreen(
-              title: widget.task,
-              description: widget.description,
-              rating: rating,
+        onTap: () async {
+          final double newRating = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChecklistDetailsScreen(
+                title: widget.task,
+                description: widget.description,
+                rating: rating,
+              ),
             ),
           );
+
+          setState(() {
+            rating = newRating;
+          });
         },
       ),
     );
