@@ -46,7 +46,6 @@ class CreateTaskScreen extends StatelessWidget {
               onPressed: () {
                 Map<String, String> textList = {'title': _controllerTitle.text,'description': _controllerDescription.text};
                 Navigator.pop(context, textList);
-                // debugPrint(textList.toString());
               },
             )
           ],

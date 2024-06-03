@@ -86,7 +86,9 @@ class _ChecklistState extends State<Checklist> {
         String title = info['title'] == null || info['title']!.isEmpty
             ? 'Sem título'
             : info['title']!;
-        String? description = info['description'];
+        String? description = info['description'] == null || info['description']!.isEmpty
+            ? 'Sem descrição'
+            : info['description']!;
         setState(() {
           _setores = _setores +
               [
