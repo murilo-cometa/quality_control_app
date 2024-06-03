@@ -23,14 +23,7 @@ class Checklist extends StatefulWidget {
 class _ChecklistState extends State<Checklist> {
   final _random = Random();
 
-  final List<Widget> _setores = [
-    const TaskCard(task: 'Qualidade do pão'),
-    const TaskCard(task: 'Moscas na carne'),
-    const TaskCard(task: 'Validade dos vinhos'),
-    const TaskCard(task: 'devolução de itens'),
-    const TaskCard(task: 'Pontos extras'),
-  ];
-  List<Widget> _setoresCards = [
+  List<Widget> _setores = [
     const TaskCard(task: 'Qualidade do pão'),
     const TaskCard(task: 'Moscas na carne'),
     const TaskCard(task: 'Validade dos vinhos'),
@@ -67,10 +60,10 @@ class _ChecklistState extends State<Checklist> {
           child: SizedBox(
             child: ListView.builder(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              itemCount: widget.editMode ? _setoresCards.length : 10,
+              itemCount: widget.editMode ? _setores.length : 10,
               itemBuilder: (context, index) {
                 return widget.editMode
-                    ? _setoresCards[index]
+                    ? _setores[index]
                     : _setores[_random.nextInt(_setores.length)];
               },
             ),
@@ -84,16 +77,24 @@ class _ChecklistState extends State<Checklist> {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () async {
-        final Map<String?, String?> info = await Navigator.push(
+        final Map<String, String> info = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => CreateTaskScreen(),
           ),
         );
-        String title = info['title'] ?? '';
+        String title = info['title'] == null || info['title']!.isEmpty
+            ? 'Sem título'
+            : info['title']!;
         String? description = info['description'];
         setState(() {
-          _setoresCards = _setoresCards + [TaskCard(task: title, description: description,)];
+          _setores = _setores +
+              [
+                TaskCard(
+                  task: title,
+                  description: description,
+                )
+              ];
         });
       },
     );

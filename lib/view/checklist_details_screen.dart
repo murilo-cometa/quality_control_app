@@ -3,15 +3,30 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
 
-class ChecklistDetailsScreen extends StatelessWidget {
+class ChecklistDetailsScreen extends StatefulWidget {
   const ChecklistDetailsScreen({
     super.key,
     required this.title,
     this.description,
+    required this.rating,
   });
 
+  final double rating;
   final String title;
   final String? description;
+
+  @override
+  State<ChecklistDetailsScreen> createState() => _ChecklistDetailsScreenState();
+}
+
+class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
+  late double finalRating;
+
+  @override
+  void initState() {
+    finalRating = widget.rating;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,7 @@ class ChecklistDetailsScreen extends StatelessWidget {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             SimpleNavigatingCardItem(
-              text: description ?? 'Sem descrição.',
+              text: widget.description ?? 'Sem descrição.',
             ),
             const Divider(),
             const Text(
@@ -41,8 +56,7 @@ class ChecklistDetailsScreen extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return const SimpleNavigatingCardItem(
-                    text:
-                        'Um simples comentário.',
+                    text: 'Um simples comentário.',
                   );
                 },
               ),
@@ -60,12 +74,13 @@ class ChecklistDetailsScreen extends StatelessWidget {
         Column(
           children: [
             Text(
-              title,
+              widget.title,
               style: const TextStyle(
                 fontSize: 25,
               ),
             ),
             RatingBar(
+              initialRating: widget.rating,
               glow: false,
               allowHalfRating: true,
               itemSize: 30,

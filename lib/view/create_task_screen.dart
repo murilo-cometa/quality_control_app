@@ -44,7 +44,7 @@ class CreateTaskScreen extends StatelessWidget {
             ElevatedButton(
               child: const Text('Salvar'),
               onPressed: () {
-                Map<String?, String?> textList = {'title': _controllerTitle.text,'description': _controllerDescription.text};
+                Map<String, String> textList = {'title': _controllerTitle.text,'description': _controllerDescription.text};
                 Navigator.pop(context, textList);
                 // debugPrint(textList.toString());
               },
