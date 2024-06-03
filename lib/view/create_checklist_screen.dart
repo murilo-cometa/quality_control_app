@@ -3,6 +3,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
 import 'package:quality_control_app/view/checklist.dart';
+import 'package:quality_control_app/view/create_task_screen.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
   const CreateChecklistScreen({super.key});
@@ -13,6 +14,8 @@ class CreateChecklistScreen extends StatefulWidget {
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
   int _selectedStore = 1;
+
+  List<String> x = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             });
           },
         ),
-        const Divider(),//--------------------------------------------------------------------------------------------
+        const Divider(), //--------------------------------------------------------------------------------------------
         SizedBox(
           height: 45,
           child: Row(
@@ -73,7 +76,15 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
                     fontSize: 20,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  final Map<String?, String?> info = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateTaskScreen(),
+                    ),
+                  );
+                  debugPrint(info['title']);
+                },
               ),
             ],
           ),
@@ -81,7 +92,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 20,
+            itemCount: 10,
             padding: const EdgeInsets.only(
               left: 10,
               right: 10,

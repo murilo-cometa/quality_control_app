@@ -7,9 +7,11 @@ class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.task,
+    this.description,
   });
 
   final String task;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,13 @@ class TaskCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          CustomNavigator.goTo(context: context, destination: ChecklistDetailsScreen(title: task,));
+          CustomNavigator.goTo(
+            context: context,
+            destination: ChecklistDetailsScreen(
+              title: task,
+              description: description,
+            ),
+          );
         },
       ),
     );

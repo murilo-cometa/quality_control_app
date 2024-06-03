@@ -6,10 +6,12 @@ import 'package:quality_control_app/common/component/simple_navigating_item_card
 class ChecklistDetailsScreen extends StatelessWidget {
   const ChecklistDetailsScreen({
     super.key,
-    this.title = 'Título Título Título',
+    required this.title,
+    this.description,
   });
 
   final String title;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,8 @@ class ChecklistDetailsScreen extends StatelessWidget {
               'Descrição',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            const SimpleNavigatingCardItem(
-              text:
-                  'Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição Descrição',
+            SimpleNavigatingCardItem(
+              text: description ?? 'Sem descrição.',
             ),
             const Divider(),
             const Text(
@@ -41,7 +42,7 @@ class ChecklistDetailsScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return const SimpleNavigatingCardItem(
                     text:
-                        'Comentário Comentário Comentário Comentário Comentário Comentário Comentário Comentário Comentário Comentário Comentário Comentário ',
+                        'Um simples comentário.',
                   );
                 },
               ),
