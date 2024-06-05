@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
+import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
 
 class ChecklistDetailsScreen extends StatefulWidget {
   const ChecklistDetailsScreen({
@@ -20,6 +21,8 @@ class ChecklistDetailsScreen extends StatefulWidget {
 
 class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
   late double finalRating;
+  List<Widget> comments = [];
+  TextEditingController commentController = TextEditingController();
 
   @override
   void initState() {
@@ -34,7 +37,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
         centerTitle: true,
         title: const Text(
-          'Detalhes do checklist',
+          'Detalhes do tarefa',
           style: TextStyle(
             fontSize: 30,
           ),
@@ -65,15 +68,23 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             Expanded(
-              child: ListView.builder(
+              child: ListView(
                 shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return const SimpleNavigatingCardItem(
-                    text: 'Um simples comentário.',
-                  );
-                },
+                children: comments,
               ),
+            ),
+            TextField(
+              controller: commentController,
+              decoration: const InputDecoration(
+                hintText: 'Escreva seu comentário...',
+                suffixIcon: Icon(Icons.comment),
+              ),
+              onSubmitted: (value) {
+                setState(() {
+                  comments += [SimpleSelectableCardItem(text: value)];
+                  commentController.clear();
+                });
+              },
             )
           ],
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
-import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
+import 'package:quality_control_app/common/component/custom_card_item.dart';
+import 'package:quality_control_app/common/library/custom_navigator.dart';
 import 'package:quality_control_app/view/checklist.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class CreateChecklistScreen extends StatefulWidget {
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
   int _selectedStore = 1;
+  List<int> _selectedChecklists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
         SizedBox(
           height: 45,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text(
                 'Escolha a o tipo de checklist',
@@ -65,16 +67,16 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
                   fontSize: 20,
                 ),
               ),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.add_circle_outline),
-                label: const Text(
-                  'Adicionar',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xFFFFE8A4)),
                 ),
-                onPressed: () {},
-              ),
+                child: const Text('Salvar'),
+                onPressed: () {
+                  
+                },
+              )
             ],
           ),
         ),
@@ -88,12 +90,29 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
             ),
             itemBuilder: (context, index) {
               int checklistType = index + 1;
-              return SimpleNavigatingCardItem(
-                text: 'tipo de checklist $checklistType',
-                goTo: Checklist(
-                  storeCode: _selectedStore,
-                  checklistType: checklistType,
+              bool selected = _selectedChecklists.contains(checklistType);
+              return CustomCardItem(
+                leading: IconButton(
+                  icon: const Icon(Icons.checklist),
+                  onPressed: () {
+                    CustomNavigator.goTo(
+                      context: context,
+                      destination: Checklist(
+                        storeCode: _selectedStore,
+                        checklistType: checklistType,
+                      ),
+                    );
+                  },
                 ),
+                selected: selected,
+                text: 'tipo de checklist $checklistType',
+                onTap: () {
+                  setState(() {
+                    selected
+                        ? _selectedChecklists.remove(checklistType)
+                        : _selectedChecklists.add(checklistType);
+                  });
+                },
               );
             },
           ),

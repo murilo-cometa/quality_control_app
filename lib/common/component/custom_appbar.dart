@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomAppBar {
   static AppBar build(String title) {
     return AppBar(
-      backgroundColor: const Color.fromARGB(255, 255, 232, 164),
+      backgroundColor: const Color(0xFFFFE8A4),
       centerTitle: true,
       title: Text(
         title,
