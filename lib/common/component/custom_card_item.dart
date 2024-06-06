@@ -11,6 +11,7 @@ class CustomCardItem extends StatelessWidget {
     this.selected = false,
     this.onTap,
     this.cardColor,
+    this.onLongPress,
   });
 
   final String text;
@@ -21,6 +22,7 @@ class CustomCardItem extends StatelessWidget {
   final bool enabled;
   final bool selected;
   final void Function()? onTap;
+  final void Function()? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,14 @@ class CustomCardItem extends StatelessWidget {
         trailing: trailing,
         selectedColor: Colors.white,
         selected: selected,
+        onTap: onTap,
+        onLongPress: onLongPress,
         title: Text(
           text,
           style: TextStyle(
             fontSize: textSize,
           ),
         ),
-        onTap: onTap,
       ),
     );
   }

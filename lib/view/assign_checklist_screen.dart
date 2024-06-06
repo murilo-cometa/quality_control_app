@@ -91,6 +91,8 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
               bool selected = _selectedChecklists.contains(checklistType);
               String title = 'Checklist $checklistType';
               return CustomCardItem(
+                selected: selected,
+                text: 'tipo de checklist $checklistType',
                 leading: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
@@ -103,8 +105,20 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                     );
                   },
                 ),
-                selected: selected,
-                text: 'tipo de checklist $checklistType',
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Deseja realmente apagar?'),
+                        action: SnackBarAction(
+                          label: 'Sim',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 onTap: () {
                   setState(() {
                     selected

@@ -7,8 +7,10 @@ class TaskCard extends StatefulWidget {
     super.key,
     required this.task,
     required this.description,
+    this.leading,
   });
 
+  final Widget? leading;
   final String task;
   final String description;
 
@@ -24,7 +26,7 @@ class _TaskCardState extends State<TaskCard> {
     return Card(
       elevation: 3,
       child: ListTile(
-        leading: const Icon(Icons.comment),
+        leading: const Icon(Icons.delete),
         title: Center(child: Text(widget.task)),
         trailing: RatingBar(
           initialRating: rating,
