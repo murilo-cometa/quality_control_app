@@ -6,11 +6,11 @@ class TaskCard extends StatefulWidget {
   const TaskCard({
     super.key,
     required this.task,
-    this.description,
+    required this.description,
   });
 
   final String task;
-  final String? description;
+  final String description;
 
   @override
   State<TaskCard> createState() => _TaskCardState();

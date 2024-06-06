@@ -7,13 +7,13 @@ class ChecklistDetailsScreen extends StatefulWidget {
   const ChecklistDetailsScreen({
     super.key,
     required this.title,
-    this.description,
+    required this.description,
     required this.rating,
   });
 
   final double rating;
   final String title;
-  final String? description;
+  final String description;
 
   @override
   State<ChecklistDetailsScreen> createState() => _ChecklistDetailsScreenState();
@@ -60,7 +60,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             SimpleNavigatingCardItem(
-              text: widget.description ?? 'Sem descrição.',
+              text: widget.description,
             ),
             const Divider(),
             const Text(

@@ -11,9 +11,9 @@ class CreateChecklistScreen extends StatefulWidget {
 }
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
-  TextEditingController _checklistNameController = TextEditingController();
-  TextEditingController _taskTitleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _checklistNameController = TextEditingController();
+  final TextEditingController _taskTitleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,7 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
           CustomNavigator.goTo(
             context: context,
             destination: Checklist(
+              newTask: true,
               editMode: true,
               title: _checklistNameController.text,
               firstTask: {

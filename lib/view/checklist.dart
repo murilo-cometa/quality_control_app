@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/task_card.dart';
@@ -10,8 +9,9 @@ class Checklist extends StatefulWidget {
     this.editMode = true,
     required this.title,
     this.firstTask,
+    this.newTask = false,
   });
-
+  final bool newTask;
   final bool editMode;
   final String title;
   final Map<String, String>? firstTask;
@@ -20,24 +20,29 @@ class Checklist extends StatefulWidget {
 }
 
 class _ChecklistState extends State<Checklist> {
-  final _random = Random();
 
-  late List<Widget> _setores;
+  // ESTA LISTA É A QUE APARECE NA TELA
+  List<Widget> _tasks = [];
 
   @override
   void initState() {
-    _setores = [
-      // const TaskCard(task: 'Qualidade do pão'),
-      // const TaskCard(task: 'Moscas na carne'),
-      // const TaskCard(task: 'Validade dos vinhos'),
-      // const TaskCard(task: 'devolução de itens'),
-      // const TaskCard(task: 'Pontos extras'),
-      if (widget.firstTask != null)
-        TaskCard(
-          task: widget.firstTask!['title'] ?? 'Sem título',
-          description: widget.firstTask!['description'],
-        ),
-    ];
+    if (widget.newTask){
+      _tasks.add(
+          TaskCard(
+            task: widget.firstTask!['title'] ?? 'Sem título',
+            description: widget.firstTask!['description'] ?? 'Sem descrição',
+          ),
+      );
+    } else {
+      // PEGA A LISTA DO BANCO DE DADOS E COLOCA NA LISTA 
+      _tasks.addAll([
+        const TaskCard(task: 'Qualidade do pão', description: 'Sem descrição',),
+        const TaskCard(task: 'Moscas na carne', description: 'Sem descrição',),
+        const TaskCard(task: 'Validade dos vinhos', description: 'Sem descrição',),
+        const TaskCard(task: 'devolução de itens', description: 'Sem descrição',),
+        const TaskCard(task: 'Pontos extras', description: 'Sem descrição',),
+      ]);
+    }
 
     super.initState();
   }
@@ -57,7 +62,7 @@ class _ChecklistState extends State<Checklist> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Text(
                 'Para checar:',
@@ -77,17 +82,14 @@ class _ChecklistState extends State<Checklist> {
             ],
           ),
         ),
-        const Divider(height: 1,),
+        const Divider(
+          height: 1,
+        ),
         Expanded(
           child: SizedBox(
-            child: ListView.builder(
+            child: ListView(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
-              itemCount: widget.editMode ? _setores.length : 10,
-              itemBuilder: (context, index) {
-                return widget.editMode
-                    ? _setores[index]
-                    : _setores[_random.nextInt(_setores.length)];
-              },
+              children: _tasks,
             ),
           ),
         ),
@@ -115,7 +117,7 @@ class _ChecklistState extends State<Checklist> {
                 : info['description']!;
 
         setState(() {
-          _setores = _setores +
+          _tasks = _tasks +
               [
                 TaskCard(
                   task: title,

@@ -92,7 +92,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
               String title = 'Checklist $checklistType';
               return CustomCardItem(
                 leading: IconButton(
-                  icon: const Icon(Icons.checklist),
+                  icon: const Icon(Icons.edit),
                   onPressed: () {
                     CustomNavigator.goTo(
                       context: context,
