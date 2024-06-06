@@ -20,12 +20,12 @@ class AppliedChecklistsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           int storeCode = _random.nextInt(40) + 1;
           int checklistType = _random.nextInt(10) + 1;
+          String title = '$checklistType na loja $storeCode';
           return SimpleNavigatingCardItem(
-            text: 'Checklist $checklistType na loja $storeCode',
+            text: title,
             goTo: Checklist(
               editMode: false,
-              checklistType: checklistType,
-              storeCode: storeCode,
+              title: title,
             ),
           );
         },

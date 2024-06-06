@@ -37,7 +37,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
         backgroundColor: const Color.fromARGB(255, 255, 232, 164),
         centerTitle: true,
         title: const Text(
-          'Detalhes do tarefa',
+          'Detalhes da tarefa',
           style: TextStyle(
             fontSize: 30,
           ),

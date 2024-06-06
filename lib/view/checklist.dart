@@ -7,15 +7,14 @@ import 'package:quality_control_app/view/create_task_screen.dart';
 class Checklist extends StatefulWidget {
   const Checklist({
     super.key,
-    required this.storeCode,
-    required this.checklistType,
     this.editMode = true,
+    required this.title,
+    this.firstTask,
   });
 
   final bool editMode;
-  final int checklistType;
-  final int storeCode;
-
+  final String title;
+  final Map<String, String>? firstTask;
   @override
   State<Checklist> createState() => _ChecklistState();
 }
@@ -23,19 +22,30 @@ class Checklist extends StatefulWidget {
 class _ChecklistState extends State<Checklist> {
   final _random = Random();
 
-  List<Widget> _setores = [
-    const TaskCard(task: 'Qualidade do pão'),
-    const TaskCard(task: 'Moscas na carne'),
-    const TaskCard(task: 'Validade dos vinhos'),
-    const TaskCard(task: 'devolução de itens'),
-    const TaskCard(task: 'Pontos extras'),
-  ];
+  late List<Widget> _setores;
+
+  @override
+  void initState() {
+    _setores = [
+      // const TaskCard(task: 'Qualidade do pão'),
+      // const TaskCard(task: 'Moscas na carne'),
+      // const TaskCard(task: 'Validade dos vinhos'),
+      // const TaskCard(task: 'devolução de itens'),
+      // const TaskCard(task: 'Pontos extras'),
+      if (widget.firstTask != null)
+        TaskCard(
+          task: widget.firstTask!['title'] ?? 'Sem título',
+          description: widget.firstTask!['description'],
+        ),
+    ];
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(
-          'Checklist ${widget.checklistType} na loja ${widget.storeCode}'),
+      appBar: CustomAppBar.build(widget.title),
       floatingActionButton: widget.editMode ? _floatingActionButton() : null,
       body: _buildBody(),
     );
@@ -44,22 +54,34 @@ class _ChecklistState extends State<Checklist> {
   Column _buildBody() {
     return Column(
       children: [
-        const SizedBox(
-          child: Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Para checar:',
-              style: TextStyle(
-                fontSize: 20,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text(
+                'Para checar:',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
+              if (widget.editMode)
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(const Color(0xFFFFE8A4)),
+                  ),
+                  child: const Text('Salvar'),
+                  onPressed: () {},
+                ),
+            ],
           ),
         ),
-        const Divider(),
+        const Divider(height: 1,),
         Expanded(
           child: SizedBox(
             child: ListView.builder(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
               itemCount: widget.editMode ? _setores.length : 10,
               itemBuilder: (context, index) {
                 return widget.editMode
@@ -83,13 +105,14 @@ class _ChecklistState extends State<Checklist> {
             builder: (context) => CreateTaskScreen(),
           ),
         );
-        
+
         String title = info['title'] == null || info['title']!.isEmpty
             ? 'Sem título'
             : info['title']!;
-        String? description = info['description'] == null || info['description']!.isEmpty
-            ? 'Sem descrição'
-            : info['description']!;
+        String? description =
+            info['description'] == null || info['description']!.isEmpty
+                ? 'Sem descrição'
+                : info['description']!;
 
         setState(() {
           _setores = _setores +

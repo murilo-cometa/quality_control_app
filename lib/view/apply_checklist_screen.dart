@@ -60,6 +60,7 @@ class _ApplyChecklistScreenState extends State<ApplyChecklistScreen> {
               itemBuilder: (context, index) {
                 int checklistType = _random.nextInt(10) + 1;
                 bool isSelected = false;
+                String title = 'Aplicando $checklistType na loja $_selectedStore';
                 return SimpleNavigatingCardItem(
                   text: 'Checklist $checklistType',
                   trailing: Checkbox(
@@ -70,8 +71,7 @@ class _ApplyChecklistScreenState extends State<ApplyChecklistScreen> {
                   ),
                   goTo: Checklist(
                     editMode: false,
-                    storeCode: _selectedStore,
-                    checklistType: checklistType,
+                    title: title,
                   ),
                 );
               },

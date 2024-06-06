@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
-import 'package:quality_control_app/common/component/custom_card_item.dart';
 import 'package:quality_control_app/common/library/custom_navigator.dart';
 import 'package:quality_control_app/view/checklist.dart';
 
@@ -13,111 +11,102 @@ class CreateChecklistScreen extends StatefulWidget {
 }
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
-  int _selectedStore = 1;
-  List<int> _selectedChecklists = [];
+  TextEditingController _checklistNameController = TextEditingController();
+  TextEditingController _taskTitleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build('Atribuir Checklist'),
+      appBar: CustomAppBar.build('Criar Checklist'),
       body: _buildBody(),
+      floatingActionButton: _buildFloatingActionButton(context),
     );
   }
 
-  Widget _buildBody() {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 35,
-          child: Text(
-            'Escolha a loja',
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton.extended(
+      label: const Text('Salvar'),
+      icon: const Icon(Icons.save),
+      onPressed: () {
+        if (_checklistNameController.text.isEmpty ||
+            _taskTitleController.text.isEmpty ||
+            _descriptionController.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Não deixe campos vazios!!!'),
+            ),
+          );
+        } else {
+          CustomNavigator.goTo(
+            context: context,
+            destination: Checklist(
+              editMode: true,
+              title: _checklistNameController.text,
+              firstTask: {
+                'title': _taskTitleController.text,
+                'description': _descriptionController.text,
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Padding _buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Escreva o nome do checklist:',
             style: TextStyle(
               fontSize: 20,
             ),
           ),
-        ),
-        NumberPicker(
-          haptics: true,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.blue),
-          ),
-          infiniteLoop: true,
-          itemWidth: 70,
-          itemCount: 5,
-          axis: Axis.horizontal,
-          minValue: 1,
-          maxValue: 40,
-          value: _selectedStore,
-          onChanged: (value) {
-            setState(() {
-              _selectedStore = value;
-            });
-          },
-        ),
-        const Divider(), //--------------------------------------------------------------------------------------------
-        SizedBox(
-          height: 45,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Text(
-                'Escolha a o tipo de checklist',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFFFFE8A4)),
-                ),
-                child: const Text('Salvar'),
-                onPressed: () {
-                  
-                },
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 10,
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
+          TextField(
+            controller: _checklistNameController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Escreva aqui...',
             ),
-            itemBuilder: (context, index) {
-              int checklistType = index + 1;
-              bool selected = _selectedChecklists.contains(checklistType);
-              return CustomCardItem(
-                leading: IconButton(
-                  icon: const Icon(Icons.checklist),
-                  onPressed: () {
-                    CustomNavigator.goTo(
-                      context: context,
-                      destination: Checklist(
-                        storeCode: _selectedStore,
-                        checklistType: checklistType,
-                      ),
-                    );
-                  },
-                ),
-                selected: selected,
-                text: 'tipo de checklist $checklistType',
-                onTap: () {
-                  setState(() {
-                    selected
-                        ? _selectedChecklists.remove(checklistType)
-                        : _selectedChecklists.add(checklistType);
-                  });
-                },
-              );
-            },
           ),
-        )
-      ],
+          const Divider(
+            height: 50,
+          ),
+          const Text(
+            'Escreva o título da primeira tarefa:',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          TextField(
+            controller: _taskTitleController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Escreva aqui...',
+            ),
+          ),
+          const Divider(
+            height: 50,
+          ),
+          const Text(
+            'Escreva a descrição:',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          TextField(
+            controller: _descriptionController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Escreva aqui...',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
