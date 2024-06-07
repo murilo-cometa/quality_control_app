@@ -2,10 +2,13 @@ class Task {
   Task({
     required this.title,
     required this.description,
-    required this.rating,
+    this.rating = 0.0,
+    required this.comments,
   });
-
   final String title;
   final String description;
-  final double rating; 
+  final double rating;
+  final List<String> comments;
+
+  
 }

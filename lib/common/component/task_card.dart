@@ -8,11 +8,13 @@ class TaskCard extends StatefulWidget {
     required this.task,
     required this.description,
     this.leading,
+    this.editMode = false,
   });
 
   final Widget? leading;
   final String task;
   final String description;
+  final bool editMode;
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -26,7 +28,7 @@ class _TaskCardState extends State<TaskCard> {
     return Card(
       elevation: 3,
       child: ListTile(
-        leading: const Icon(Icons.delete),
+        leading: widget.editMode ? const Icon(Icons.edit) : const Icon(Icons.comment),
         title: Center(child: Text(widget.task)),
         trailing: RatingBar(
           initialRating: rating,

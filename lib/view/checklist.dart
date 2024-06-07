@@ -20,27 +20,46 @@ class Checklist extends StatefulWidget {
 }
 
 class _ChecklistState extends State<Checklist> {
-
   // ESTA LISTA É A QUE APARECE NA TELA
   List<Widget> _tasks = [];
 
   @override
   void initState() {
-    if (widget.newTask){
+    if (widget.newTask) {
       _tasks.add(
-          TaskCard(
-            task: widget.firstTask!['title'] ?? 'Sem título',
-            description: widget.firstTask!['description'] ?? 'Sem descrição',
-          ),
+        TaskCard(
+          task: widget.firstTask!['title'] ?? 'Sem título',
+          description: widget.firstTask!['description'] ?? 'Sem descrição',
+        ),
       );
     } else {
-      // PEGA A LISTA DO BANCO DE DADOS E COLOCA NA LISTA 
+      // PEGA A LISTA DO BANCO DE DADOS E COLOCA NA LISTA
       _tasks.addAll([
-        const TaskCard(task: 'Qualidade do pão', description: 'Sem descrição',),
-        const TaskCard(task: 'Moscas na carne', description: 'Sem descrição',),
-        const TaskCard(task: 'Validade dos vinhos', description: 'Sem descrição',),
-        const TaskCard(task: 'devolução de itens', description: 'Sem descrição',),
-        const TaskCard(task: 'Pontos extras', description: 'Sem descrição',),
+        TaskCard(
+          task: 'Qualidade do pão',
+          description: 'Sem descrição',
+          editMode: widget.editMode,
+        ),
+        TaskCard(
+          task: 'Moscas na carne',
+          description: 'Sem descrição',
+          editMode: widget.editMode,
+        ),
+        TaskCard(
+          task: 'Validade dos vinhos',
+          description: 'Sem descrição',
+          editMode: widget.editMode,
+        ),
+        TaskCard(
+          task: 'devolução de itens',
+          description: 'Sem descrição',
+          editMode: widget.editMode,
+        ),
+        TaskCard(
+          task: 'Pontos extras',
+          description: 'Sem descrição',
+          editMode: widget.editMode,
+        ),
       ]);
     }
 
