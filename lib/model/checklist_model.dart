@@ -1,12 +1,14 @@
-import 'package:quality_control_app/model/task_model.dart';
-
 class Checklist {
   Checklist({
     required this.name,
-    required this.tasks,
   });
   final String name;
-  final List<Task> tasks;
-
-  
+  final List<Map> tasks = [
+    {
+      'name': 'testar',
+      'description': 'muitas palavras',
+      'comments': ['um comentário', 'dois comentários', 'três comentários'],
+      'rating': 1,
+    },
+  ];
 }
