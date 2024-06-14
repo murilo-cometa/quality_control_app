@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "477549801856",
+    "project_id": "cometa-quality-control-app",
+    "storage_bucket": "cometa-quality-control-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477549801856:android:f1d6e6d15ac6912b759165",
+        "android_client_info": {
+          "package_name": "com.example.quality_control_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj4INf0Lxiai4PJ3GLJcgbKrxOEtZwOxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

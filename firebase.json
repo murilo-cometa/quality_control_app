@@ -1,0 +1,43 @@
+{
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "cometa-quality-control-app",
+                    "appId": "1:477549801856:android:f1d6e6d15ac6912b759165",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "cometa-quality-control-app",
+                    "configurations": {
+                        "android": "1:477549801856:android:f1d6e6d15ac6912b759165",
+                        "ios": "1:477549801856:ios:5899e29885839d88759165",
+                        "macos": "1:477549801856:ios:5899e29885839d88759165",
+                        "web": "1:477549801856:web:2f7fab8b7f751329759165",
+                        "windows": "1:477549801856:web:90ca7d1afb4be581759165"
+                    }
+                }
+            }
+        }
+    }
+}
