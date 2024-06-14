@@ -6,7 +6,11 @@ import 'package:quality_control_app/common/library/custom_navigator.dart';
 import 'package:quality_control_app/view/checklist.dart';
 
 class AssignChecklistScreen extends StatefulWidget {
-  const AssignChecklistScreen({super.key});
+  const AssignChecklistScreen({
+    super.key,
+    this.availableChecklists,
+  });
+  final List<Widget>? availableChecklists;
 
   @override
   State<AssignChecklistScreen> createState() => _AssignChecklistScreenState();

@@ -11,7 +11,8 @@ class CreateChecklistScreen extends StatefulWidget {
 }
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
-  final TextEditingController _checklistNameController = TextEditingController();
+  final TextEditingController _checklistNameController =
+      TextEditingController();
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -20,38 +21,6 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
     return Scaffold(
       appBar: CustomAppBar.build('Criar Checklist'),
       body: _buildBody(),
-      floatingActionButton: _buildFloatingActionButton(context),
-    );
-  }
-
-  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton.extended(
-      label: const Text('Salvar'),
-      icon: const Icon(Icons.save),
-      onPressed: () {
-        if (_checklistNameController.text.isEmpty ||
-            _taskTitleController.text.isEmpty ||
-            _descriptionController.text.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Não deixe campos vazios!!!'),
-            ),
-          );
-        } else {
-          CustomNavigator.goTo(
-            context: context,
-            destination: Checklist(
-              newTask: true,
-              editMode: true,
-              title: _checklistNameController.text,
-              firstTask: {
-                'title': _taskTitleController.text,
-                'description': _descriptionController.text,
-              },
-            ),
-          );
-        }
-      },
     );
   }
 
@@ -106,6 +75,36 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
               hintText: 'Escreva aqui...',
             ),
           ),
+          const SizedBox(
+            height: 25,
+          ),
+          FilledButton(
+            child: const Text('Salvar'),
+            onPressed: () {
+              if (_checklistNameController.text.isEmpty ||
+                  _taskTitleController.text.isEmpty ||
+                  _descriptionController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Não deixe campos vazios!!!'),
+                  ),
+                );
+              } else {
+                CustomNavigator.goTo(
+                  context: context,
+                  destination: Checklist(
+                    newTask: true,
+                    editMode: true,
+                    title: _checklistNameController.text,
+                    firstTask: {
+                      'title': _taskTitleController.text,
+                      'description': _descriptionController.text,
+                    },
+                  ),
+                );
+              }
+            },
+          )
         ],
       ),
     );
