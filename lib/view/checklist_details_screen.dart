@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
@@ -11,9 +12,9 @@ class ChecklistDetailsScreen extends StatefulWidget {
     required this.rating,
   });
 
-  final double rating;
   final String title;
   final String description;
+  final double rating;
 
   @override
   State<ChecklistDetailsScreen> createState() => _ChecklistDetailsScreenState();
@@ -23,6 +24,8 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
   late double finalRating;
   List<Widget> comments = [];
   TextEditingController commentController = TextEditingController();
+  final CollectionReference _myDB =
+      FirebaseFirestore.instance.collection('tasks');
 
   @override
   void initState() {
@@ -147,5 +150,14 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
         )
       ],
     );
+  }
+
+  Future<void> updateRating({
+    required DocumentSnapshot documentSnapshot,
+    required double newRating,
+  }) async {
+    await _myDB.doc(documentSnapshot.id).update({
+      'rating': newRating,
+    });
   }
 }

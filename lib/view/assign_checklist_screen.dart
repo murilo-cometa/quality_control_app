@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/component/custom_card_item.dart';
-import 'package:quality_control_app/common/library/custom_navigator.dart';
-import 'package:quality_control_app/view/checklist.dart';
+import 'package:quality_control_app/view/checklist_with_db.dart';
 
 class AssignChecklistScreen extends StatefulWidget {
   const AssignChecklistScreen({
@@ -93,20 +92,26 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
             itemBuilder: (context, index) {
               int checklistType = index + 1;
               bool selected = _selectedChecklists.contains(checklistType);
-              String title = 'Checklist $checklistType';
+              // String title = 'Checklist $checklistType';
               return CustomCardItem(
                 selected: selected,
                 text: 'tipo de checklist $checklistType',
                 leading: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
-                    CustomNavigator.goTo(
-                      context: context,
-                      destination: Checklist(
-                        editMode: true,
-                        title: title,
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChecklistWithDb(editMode: true,),
                       ),
                     );
+                    // CustomNavigator.goTo(
+                    //   context: context,
+                    //   destination: Checklist(
+                    //     editMode: true,
+                    //     title: title,
+                    //   ),
+                    // );
                   },
                 ),
                 trailing: IconButton(
