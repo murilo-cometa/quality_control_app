@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/library/custom_navigator.dart';
-import 'package:quality_control_app/view/checklist.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
   const CreateChecklistScreen({super.key});
@@ -90,18 +89,18 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
                   ),
                 );
               } else {
-                CustomNavigator.goTo(
-                  context: context,
-                  destination: Checklist(
-                    newTask: true,
-                    editMode: true,
-                    title: _checklistNameController.text,
-                    firstTask: {
-                      'title': _taskTitleController.text,
-                      'description': _descriptionController.text,
-                    },
-                  ),
-                );
+                // CustomNavigator.goTo(
+                //   context: context,
+                //   destination: Checklist(
+                //     newTask: true,
+                //     editMode: true,
+                //     title: _checklistNameController.text,
+                //     firstTask: {
+                //       'title': _taskTitleController.text,
+                //       'description': _descriptionController.text,
+                //     },
+                //   ),
+                // );
               }
             },
           )

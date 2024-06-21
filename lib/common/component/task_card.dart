@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/view/checklist_details_screen.dart';
@@ -10,7 +9,7 @@ class TaskCard extends StatefulWidget {
     required this.description,
     this.leading,
     this.editMode = false,
-    this.rating = 0.0,
+    this.rating = 0.0, required this.index,
   });
 
   final Widget? leading;
@@ -18,6 +17,7 @@ class TaskCard extends StatefulWidget {
   final String description;
   final bool editMode;
   final double rating;
+  final int index;
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -69,11 +69,7 @@ class _TaskCardState extends State<TaskCard> {
           final double newRating = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChecklistDetailsScreen(
-                title: widget.task,
-                description: widget.description,
-                rating: rating,
-              ),
+              builder: (context) => ChecklistDetailsScreen(taskIndex: widget.index,),
             ),
           );
 

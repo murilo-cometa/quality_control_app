@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
-import 'package:quality_control_app/common/component/simple_navigating_item_card.dart';
-import 'package:quality_control_app/view/checklist.dart';
 
 class ApplyChecklistScreen extends StatefulWidget {
   const ApplyChecklistScreen({super.key});
@@ -61,13 +59,13 @@ class _ApplyChecklistScreenState extends State<ApplyChecklistScreen> {
                 int checklistType = _random.nextInt(10) + 1;
                 //bool isSelected = false;
                 String title = 'Aplicando $checklistType na loja $_selectedStore';
-                return SimpleNavigatingCardItem(
-                  text: 'Checklist $checklistType',
-                  goTo: Checklist(
-                    editMode: false,
-                    title: title,
-                  ),
-                );
+                // return SimpleNavigatingCardItem(
+                //   text: 'Checklist $checklistType',
+                //   goTo: Checklist(
+                //     editMode: false,
+                //     title: title,
+                //   ),
+                // );
               },
             ),
           ),
