@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/library/custom_navigator.dart';
@@ -87,6 +88,9 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
     return Card(
       elevation: 3,
       child: ListTile(
+        onLongPress: () {
+          _deleteDialogBox(context: context, docID: docID);
+        },
         title: Center(child: Text(title)),
         leading: widget.editMode
             ? const Icon(Icons.edit)
@@ -121,6 +125,37 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
           );
         },
       ),
+    );
+  }
+
+  Future<void> _deleteDialogBox({required BuildContext context, required String docID}) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Deseja realmente deletar a tarefa?\nEssa ação é irreversível'),
+                const SizedBox(
+                  height: 15,
+                ),
+                FilledButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
+                  child: const Text('Deletar'),
+                  onPressed: () async{
+                    _myDB.doc(docID).delete().then((value) => Navigator.pop(context));
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -182,7 +217,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                       await _myDB.add({
                         'title': _taskTitleController.text,
                         'description': _descriptionController.text,
-                        'checklist': 
+                        'checklist':
                             'teste de add', // TODO: IMPLEMENTAR OS CAMPOS ABAIXO
                         'rating': 0,
                         'comments': [],
