@@ -27,7 +27,10 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
 
   @override
   void initState() {
-    _myDB = FirebaseFirestore.instance.collection('checklists').doc(widget.documentID).collection('tasks');
+    _myDB = FirebaseFirestore.instance
+        .collection('checklists')
+        .doc(widget.documentID)
+        .collection('tasks');
     super.initState();
   }
 
@@ -230,11 +233,8 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                       await _myDB.add({
                         'title': _taskTitleController.text,
                         'description': _descriptionController.text,
-                        'checklist':
-                            'teste de add', // TODO: IMPLEMENTAR OS CAMPOS ABAIXO
                         'rating': 0,
                         'comments': [],
-                        'stores': [],
                       }).then((value) {
                         _taskTitleController.clear();
                         _descriptionController.clear();
