@@ -40,11 +40,22 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                     itemBuilder: (context, index) {
                       final DocumentSnapshot doc = snapshot.data!.docs[index];
                       final String checklistName = doc['name'];
-                      // final String id = doc.id;
+                      final String id = doc.id;
                       return Card(
                         elevation: 3,
                         child: ListTile(
                           title: Text(checklistName),
+                          leading: IconButton(
+                              onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChecklistWithDb(
+                                        editMode: true,
+                                        documentID: id,
+                                      ),
+                                    ),
+                                  ),
+                              icon: const Icon(Icons.edit)),
                         ),
                       );
                     },
@@ -79,14 +90,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                   MaterialStateProperty.all(const Color(0xFFFFE8A4)),
             ),
             child: const Text('Salvar'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ChecklistWithDb(editMode: true),
-                ),
-              );
-            },
+            onPressed: () {},
           ),
         ],
       ),

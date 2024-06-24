@@ -9,8 +9,10 @@ class ChecklistWithDb extends StatefulWidget {
   const ChecklistWithDb({
     super.key,
     required this.editMode,
+    required this.documentID,
   });
 
+  final String documentID;
   final bool editMode;
 
   @override
@@ -21,8 +23,13 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  final CollectionReference _myDB =
-      FirebaseFirestore.instance.collection('tasks');
+  late final CollectionReference _myDB;
+
+  @override
+  void initState() {
+    _myDB = FirebaseFirestore.instance.collection('checklists').doc(widget.documentID).collection('tasks');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
           const Divider(),
           StreamBuilder(
             stream: _myDB.snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Expanded(
                   child: ListView.builder(
@@ -120,6 +127,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
             context: context,
             destination: ChecklistDetailsScreen(
               taskIndex: index,
+              documentID: widget.documentID,
               editMode: true,
             ),
           );

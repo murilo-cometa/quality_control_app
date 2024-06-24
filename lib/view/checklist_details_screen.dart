@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
 
@@ -9,10 +8,12 @@ class ChecklistDetailsScreen extends StatefulWidget {
     super.key,
     required this.taskIndex,
     required this.editMode,
+    required this.documentID,
   });
 
   final int taskIndex;
   final bool editMode;
+  final String documentID;
 
   @override
   State<ChecklistDetailsScreen> createState() => _ChecklistDetailsScreenState();
@@ -28,7 +29,10 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
 
   @override
   void initState() {
-    _myDB = FirebaseFirestore.instance.collection('tasks');
+    _myDB = FirebaseFirestore.instance
+        .collection('checklists')
+        .doc(widget.documentID)
+        .collection('tasks');
     super.initState();
   }
 
