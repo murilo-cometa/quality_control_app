@@ -52,6 +52,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                                       builder: (context) => ChecklistWithDb(
                                         editMode: true,
                                         documentID: id,
+                                        checklistName: checklistName,
                                       ),
                                     ),
                                   ),

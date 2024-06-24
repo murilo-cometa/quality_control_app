@@ -10,9 +10,11 @@ class ChecklistWithDb extends StatefulWidget {
     super.key,
     required this.editMode,
     required this.documentID,
+    required this.checklistName,
   });
 
   final String documentID;
+  final String checklistName;
   final bool editMode;
 
   @override
@@ -37,7 +39,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build('checklist'),
+      appBar: CustomAppBar.build(widget.checklistName),
       floatingActionButton: widget.editMode
           ? FloatingActionButton(
               backgroundColor: Colors.lightBlueAccent.shade100,
