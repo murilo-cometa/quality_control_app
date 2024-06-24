@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
-import 'package:quality_control_app/common/component/custom_card_item.dart';
 import 'package:quality_control_app/view/checklist_with_db.dart';
 
 class AssignChecklistScreen extends StatefulWidget {
@@ -16,18 +16,84 @@ class AssignChecklistScreen extends StatefulWidget {
 }
 
 class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
+  final CollectionReference _myDB =
+      FirebaseFirestore.instance.collection('checklists');
   int _selectedStore = 1;
-  final List<int> _selectedChecklists = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.build('Atribuir Checklist'),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          _buildStorePicker(),
+          const Divider(), //--------------------------------------------------------------------------------------------
+          _buildChecklistsListTitle(),
+          StreamBuilder(
+            stream: _myDB.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot doc = snapshot.data!.docs[index];
+                      final String checklistName = doc['name'];
+                      // final String id = doc.id;
+                      return Card(
+                        elevation: 3,
+                        child: ListTile(
+                          title: Text(checklistName),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+              return const Center(
+                child: Text('Sem checklists'),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildBody() {
+  SizedBox _buildChecklistsListTitle() {
+    return SizedBox(
+      height: 45,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Escolha a o tipo de checklist',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(const Color(0xFFFFE8A4)),
+            ),
+            child: const Text('Salvar'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChecklistWithDb(editMode: true),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _buildStorePicker() {
     return Column(
       children: [
         const SizedBox(
@@ -58,87 +124,6 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
             });
           },
         ),
-        const Divider(), //--------------------------------------------------------------------------------------------
-        SizedBox(
-          height: 45,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Text(
-                'Escolha a o tipo de checklist',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFFFFE8A4)),
-                ),
-                child: const Text('Salvar'),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 10,
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            itemBuilder: (context, index) {
-              int checklistType = index + 1;
-              bool selected = _selectedChecklists.contains(checklistType);
-              // String title = 'Checklist $checklistType';
-              return CustomCardItem(
-                selected: selected,
-                text: 'tipo de checklist $checklistType',
-                leading: IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChecklistWithDb(editMode: true,),
-                      ),
-                    );
-                    // CustomNavigator.goTo(
-                    //   context: context,
-                    //   destination: Checklist(
-                    //     editMode: true,
-                    //     title: title,
-                    //   ),
-                    // );
-                  },
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Deseja realmente apagar?'),
-                        action: SnackBarAction(
-                          label: 'Sim',
-                          onPressed: () {},
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                onTap: () {
-                  setState(() {
-                    selected
-                        ? _selectedChecklists.remove(checklistType)
-                        : _selectedChecklists.add(checklistType);
-                  });
-                },
-              );
-            },
-          ),
-        )
       ],
     );
   }

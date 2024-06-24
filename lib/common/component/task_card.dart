@@ -69,7 +69,7 @@ class _TaskCardState extends State<TaskCard> {
           final double newRating = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChecklistDetailsScreen(taskIndex: widget.index,),
+              builder: (context) => ChecklistDetailsScreen(taskIndex: widget.index,editMode: true,),
             ),
           );
 

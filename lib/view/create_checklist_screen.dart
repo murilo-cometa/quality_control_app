@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
-import 'package:quality_control_app/common/library/custom_navigator.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
   const CreateChecklistScreen({super.key});

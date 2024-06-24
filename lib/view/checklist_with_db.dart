@@ -28,11 +28,13 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.build('checklist'),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.lightBlueAccent.shade100,
-        onPressed: () => _createDialogBox(context: context),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: widget.editMode
+          ? FloatingActionButton(
+              backgroundColor: Colors.lightBlueAccent.shade100,
+              onPressed: () => _createDialogBox(context: context),
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: Column(
         children: [
           const Text(
@@ -44,7 +46,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
           const Divider(),
           StreamBuilder(
             stream: _myDB.snapshots(),
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
                 return Expanded(
                   child: ListView.builder(
@@ -58,7 +60,6 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                         child: _buildTaskCard(
                           title: title,
                           rating: rating,
-                          editMode: true,
                           index: index,
                           docID: id,
                         ),
@@ -80,7 +81,6 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
   Widget _buildTaskCard({
     required String title,
     required String docID,
-    required bool editMode,
     required double rating,
     required int index,
   }) {
@@ -120,6 +120,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
             context: context,
             destination: ChecklistDetailsScreen(
               taskIndex: index,
+              editMode: true,
             ),
           );
         },
@@ -127,7 +128,8 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
     );
   }
 
-  Future<void> _deleteDialogBox({required BuildContext context, required String docID}) {
+  Future<void> _deleteDialogBox(
+      {required BuildContext context, required String docID}) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -137,7 +139,8 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Deseja realmente deletar a tarefa?\nEssa ação é irreversível'),
+                const Text(
+                    'Deseja realmente deletar a tarefa?\nEssa ação é irreversível'),
                 const SizedBox(
                   height: 15,
                 ),
@@ -146,8 +149,11 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                     backgroundColor: MaterialStateProperty.all(Colors.red),
                   ),
                   child: const Text('Deletar'),
-                  onPressed: () async{
-                    _myDB.doc(docID).delete().then((value) => Navigator.pop(context));
+                  onPressed: () async {
+                    _myDB
+                        .doc(docID)
+                        .delete()
+                        .then((value) => Navigator.pop(context));
                   },
                 )
               ],
