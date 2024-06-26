@@ -4,7 +4,6 @@ import 'package:quality_control_app/common/component/simple_navigating_item_card
 import 'package:quality_control_app/view/applied_checklists_screen.dart';
 import 'package:quality_control_app/view/apply_checklist_screen.dart';
 import 'package:quality_control_app/view/assign_checklist_screen.dart';
-import 'package:quality_control_app/view/create_checklist_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -41,13 +40,6 @@ class HomeScreen extends StatelessWidget {
             textSize: 30,
             trailing: Icon(Icons.arrow_forward),
             goTo: AssignChecklistScreen(),
-          ),
-          const Divider(),
-          const SimpleNavigatingCardItem(
-            text: 'Criar checklist',
-            textSize: 30,
-            trailing: Icon(Icons.arrow_forward),
-            goTo: CreateChecklistScreen(),
           ),
         ],
       ),
