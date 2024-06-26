@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/simple_selectable_card_item.dart';
 
-class ChecklistDetailsScreen extends StatefulWidget {
-  const ChecklistDetailsScreen({
+class TaskDetailsScreen extends StatefulWidget {
+  const TaskDetailsScreen({
     super.key,
     required this.taskIndex,
     required this.editMode,
@@ -16,10 +16,10 @@ class ChecklistDetailsScreen extends StatefulWidget {
   final String documentID;
 
   @override
-  State<ChecklistDetailsScreen> createState() => _ChecklistDetailsScreenState();
+  State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
 }
 
-class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
+class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController commentController = TextEditingController();
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -126,6 +126,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                       ),
                     ),
                     TextField(
+                      enabled: !widget.editMode,
                       controller: commentController,
                       decoration: const InputDecoration(
                         hintText: 'Escreva seu comentário...',
@@ -190,6 +191,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                     width: 250,
                     child: Text(
                       title,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
                       ),
@@ -208,6 +210,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
               ],
             ),
             RatingBar(
+              ignoreGestures: widget.editMode,
               initialRating: rating,
               glow: false,
               allowHalfRating: true,

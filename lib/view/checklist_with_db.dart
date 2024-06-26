@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
 import 'package:quality_control_app/common/library/custom_navigator.dart';
-import 'package:quality_control_app/view/checklist_details_screen.dart';
+import 'package:quality_control_app/view/task_details_screen.dart';
 
 class ChecklistWithDb extends StatefulWidget {
   const ChecklistWithDb({
@@ -107,6 +107,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
             ? const Icon(Icons.edit)
             : const Icon(Icons.comment),
         trailing: RatingBar(
+          ignoreGestures: widget.editMode,
           initialRating: rating,
           glow: false,
           allowHalfRating: true,
@@ -130,10 +131,10 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
         onTap: () {
           CustomNavigator.goTo(
             context: context,
-            destination: ChecklistDetailsScreen(
+            destination: TaskDetailsScreen(
               taskIndex: index,
               documentID: widget.documentID,
-              editMode: true,
+              editMode: widget.editMode,
             ),
           );
         },
