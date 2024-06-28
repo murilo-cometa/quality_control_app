@@ -9,11 +9,13 @@ class TaskDetailsScreen extends StatefulWidget {
     required this.taskIndex,
     required this.editMode,
     required this.documentID,
+    required this.collection,
   });
 
   final int taskIndex;
   final bool editMode;
   final String documentID;
+  final CollectionReference collection;
 
   @override
   State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
@@ -23,18 +25,18 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController commentController = TextEditingController();
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  late final CollectionReference _myDB;
   bool editDescription = false;
   bool editTitle = false;
+  // late final CollectionReference _myDB;
 
-  @override
-  void initState() {
-    _myDB = FirebaseFirestore.instance
-        .collection('checklists')
-        .doc(widget.documentID)
-        .collection('tasks');
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _myDB = FirebaseFirestore.instance
+  //       .collection('checklists')
+  //       .doc(widget.documentID)
+  //       .collection('tasks');
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
       ),
       body: StreamBuilder(
-          stream: _myDB.snapshots(),
+          stream: widget.collection.snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final DocumentSnapshot doc =
@@ -135,7 +137,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       onSubmitted: (value) {
                         List newComments = comments + [commentController.text];
                         Map<Object, Object?> data = {'comments': newComments};
-                        _myDB.doc(id).update(data);
+                        widget.collection.doc(id).update(data);
                         commentController.clear();
                       },
                     )
@@ -309,7 +311,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                   onPressed: () async {
                     List newList = commentsList;
                     newList.removeAt(commentIndex);
-                    _myDB.doc(docID).update({'comments': newList}).then(
+                    widget.collection.doc(docID).update({'comments': newList}).then(
                         (value) => Navigator.pop(context));
                   },
                 )
@@ -325,7 +327,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     required String docID,
     required Map<Object, Object?> data,
   }) async {
-    await _myDB.doc(docID).update(data);
+    await widget.collection.doc(docID).update(data);
   }
 
   // Future<void> _create({

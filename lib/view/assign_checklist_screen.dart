@@ -20,12 +20,14 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
       TextEditingController();
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  
-  final CollectionReference _myDB =
+
+  final CollectionReference _checklistsCollection =
       FirebaseFirestore.instance.collection('checklists');
+  final CollectionReference _storesCollection =
+      FirebaseFirestore.instance.collection('stores');
 
   int _selectedStore = 1;
-  final List<int> _selectedChecklists = [];
+  final List<String> _selectedChecklists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
           const Divider(), //--------------------------------------------------------------------------------------------
           _buildChecklistsListSectionTitle(),
           StreamBuilder(
-            stream: _myDB.snapshots(),
+            stream: _checklistsCollection.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
                 return Expanded(
@@ -57,7 +59,6 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                         context: context,
                         id: id,
                         checklistName: checklistName,
-                        index: index
                       );
                     },
                   ),
@@ -77,11 +78,8 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
     required BuildContext context,
     required String id,
     required String checklistName,
-    required int index,
   }) {
-    bool isSelected = _selectedChecklists.contains(index);
-
-
+    bool isSelected = _selectedChecklists.contains(id);
     return Card(
       color: isSelected ? Colors.green : null,
       elevation: 3,
@@ -94,7 +92,9 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
         },
         onTap: () {
           setState(() {
-            isSelected ? _selectedChecklists.remove(index) : _selectedChecklists.add(index);
+            isSelected
+                ? _selectedChecklists.remove(id)
+                : _selectedChecklists.add(id);
           });
         },
         leading: IconButton(
@@ -105,6 +105,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                       editMode: true,
                       documentID: id,
                       checklistName: checklistName,
+                      collection: _checklistsCollection.doc(id).collection('tasks'),
                     ),
                   ),
                 ),
@@ -131,11 +132,45 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                   MaterialStateProperty.all(const Color(0xFFFFE8A4)),
             ),
             child: const Text('Salvar'),
-            onPressed: () {},
+            onPressed: () async {
+              await _saveButtonAction();
+            },
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _saveButtonAction() async {
+    if (_selectedChecklists.isNotEmpty) {
+      for (final checklistID in _selectedChecklists) {
+        DocumentSnapshot<Object?> checklistToAdd =
+            await _checklistsCollection.doc(checklistID).get();
+        Map<String, dynamic> data = {'name': checklistToAdd['name']};
+        DocumentReference newDoc = await _storesCollection
+            .doc(_selectedStore.toString())
+            .collection('checklists')
+            .add(data);
+        _checklistsCollection.doc(checklistID).collection('tasks').get().then(
+          (value) {
+            for (var doc in value.docs) {
+                Map<String, dynamic> taskData = {
+                  'title': doc['title'],
+                  'description': doc['description'],
+                  'rating': doc['rating'],
+                  'comments': doc['comments']
+                };
+                newDoc.collection('tasks').add(taskData);
+              }
+          },
+        );
+        debugPrint(checklistToAdd.data().toString());
+      }
+      setState(() {
+        _selectedChecklists.clear();
+      });
+      _showSuccessSnackBar();
+    }
   }
 
   Column _buildStorePicker() {
@@ -245,9 +280,12 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                         ),
                       );
                     } else {
-                      DocumentReference newDoc = await _myDB
+                      DocumentReference newDoc = await _checklistsCollection
                           .add({'name': _checklistNameController.text});
-                      _myDB.doc(newDoc.id).collection('tasks').add(
+                      _checklistsCollection
+                          .doc(newDoc.id)
+                          .collection('tasks')
+                          .add(
                         {
                           'title': _taskTitleController.text,
                           'description': _descriptionController.text,
@@ -295,7 +333,7 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                   ),
                   child: const Text('Deletar'),
                   onPressed: () async {
-                    _myDB
+                    _checklistsCollection
                         .doc(docID)
                         .delete()
                         .then((value) => Navigator.pop(context));
@@ -306,6 +344,14 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _showSuccessSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Atribuído com sucesso'),
+      ),
     );
   }
 }

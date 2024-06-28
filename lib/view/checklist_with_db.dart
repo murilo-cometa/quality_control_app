@@ -11,11 +11,13 @@ class ChecklistWithDb extends StatefulWidget {
     required this.editMode,
     required this.documentID,
     required this.checklistName,
+    required this.collection,
   });
 
   final String documentID;
   final String checklistName;
   final bool editMode;
+  final CollectionReference collection;
 
   @override
   State<ChecklistWithDb> createState() => _ChecklistWithDbState();
@@ -25,16 +27,16 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  late final CollectionReference _myDB;
+  // late final CollectionReference _myDB;
 
-  @override
-  void initState() {
-    _myDB = FirebaseFirestore.instance
-        .collection('checklists')
-        .doc(widget.documentID)
-        .collection('tasks');
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _myDB = FirebaseFirestore.instance
+  //       .collection('checklists')
+  //       .doc(widget.documentID)
+  //       .collection('tasks');
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
           ),
           const Divider(),
           StreamBuilder(
-            stream: _myDB.snapshots(),
+            stream: widget.collection.snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Expanded(
@@ -114,7 +116,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
           itemSize: 25,
           onRatingUpdate: (value) {
             Map<Object, Object?> data = {'rating': value};
-            _myDB.doc(docID).update(data);
+            widget.collection.doc(docID).update(data);
           },
           ratingWidget: RatingWidget(
             full: const Icon(
@@ -135,6 +137,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
               taskIndex: index,
               documentID: widget.documentID,
               editMode: widget.editMode,
+              collection: widget.collection,
             ),
           );
         },
@@ -164,7 +167,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                   ),
                   child: const Text('Deletar'),
                   onPressed: () async {
-                    _myDB
+                    widget.collection
                         .doc(docID)
                         .delete()
                         .then((value) => Navigator.pop(context));
@@ -233,7 +236,7 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
                         ),
                       );
                     } else {
-                      await _myDB.add({
+                      await widget.collection.add({
                         'title': _taskTitleController.text,
                         'description': _descriptionController.text,
                         'rating': 0,
