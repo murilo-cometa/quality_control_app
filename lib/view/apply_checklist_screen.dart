@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quality_control_app/common/component/custom_appbar.dart';
@@ -12,7 +10,6 @@ class ApplyChecklistScreen extends StatefulWidget {
 }
 
 class _ApplyChecklistScreenState extends State<ApplyChecklistScreen> {
-  final _random = Random();
 
   int _selectedStore = 1;
 
@@ -47,28 +44,9 @@ class _ApplyChecklistScreenState extends State<ApplyChecklistScreen> {
             },
           ),
           const Divider(),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _random.nextInt(10),
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              itemBuilder: (context, index) {
-                int checklistType = _random.nextInt(10) + 1;
-                //bool isSelected = false;
-                String title = 'Aplicando $checklistType na loja $_selectedStore';
-                // return SimpleNavigatingCardItem(
-                //   text: 'Checklist $checklistType',
-                //   goTo: Checklist(
-                //     editMode: false,
-                //     title: title,
-                //   ),
-                // );
-              },
-            ),
-          ),
+          // Expanded(
+          //   child: ListView.builder(),
+          // ),
         ],
       ),
     );

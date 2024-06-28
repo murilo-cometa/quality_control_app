@@ -20,9 +20,12 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
       TextEditingController();
   final TextEditingController _taskTitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  
   final CollectionReference _myDB =
       FirebaseFirestore.instance.collection('checklists');
+
   int _selectedStore = 1;
+  final List<int> _selectedChecklists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,26 +53,11 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                       final DocumentSnapshot doc = snapshot.data!.docs[index];
                       final String checklistName = doc['name'];
                       final String id = doc.id;
-                      return Card(
-                        elevation: 3,
-                        child: ListTile(
-                          onLongPress: () {
-                            _deleteDialogBox(context: context, docID: id);
-                          },
-                          title: Text(checklistName),
-                          leading: IconButton(
-                              onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChecklistWithDb(
-                                        editMode: true,
-                                        documentID: id,
-                                        checklistName: checklistName,
-                                      ),
-                                    ),
-                                  ),
-                              icon: const Icon(Icons.edit)),
-                        ),
+                      return _buildChecklistItem(
+                        context: context,
+                        id: id,
+                        checklistName: checklistName,
+                        index: index
                       );
                     },
                   ),
@@ -81,6 +69,46 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChecklistItem({
+    required BuildContext context,
+    required String id,
+    required String checklistName,
+    required int index,
+  }) {
+    bool isSelected = _selectedChecklists.contains(index);
+
+
+    return Card(
+      color: isSelected ? Colors.green : null,
+      elevation: 3,
+      child: ListTile(
+        selectedColor: Colors.white,
+        selected: isSelected,
+        title: Text(checklistName),
+        onLongPress: () {
+          _deleteDialogBox(context: context, docID: id);
+        },
+        onTap: () {
+          setState(() {
+            isSelected ? _selectedChecklists.remove(index) : _selectedChecklists.add(index);
+          });
+        },
+        leading: IconButton(
+            onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChecklistWithDb(
+                      editMode: true,
+                      documentID: id,
+                      checklistName: checklistName,
+                    ),
+                  ),
+                ),
+            icon: const Icon(Icons.edit)),
       ),
     );
   }
@@ -244,7 +272,6 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
       },
     );
   }
-
 
   Future<void> _deleteDialogBox(
       {required BuildContext context, required String docID}) {
