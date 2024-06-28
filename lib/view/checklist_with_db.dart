@@ -9,12 +9,10 @@ class ChecklistWithDb extends StatefulWidget {
   const ChecklistWithDb({
     super.key,
     required this.editMode,
-    required this.documentID,
     required this.checklistName,
     required this.collection,
   });
 
-  final String documentID;
   final String checklistName;
   final bool editMode;
   final CollectionReference collection;
@@ -135,7 +133,6 @@ class _ChecklistWithDbState extends State<ChecklistWithDb> {
             context: context,
             destination: TaskDetailsScreen(
               taskIndex: index,
-              documentID: widget.documentID,
               editMode: widget.editMode,
               collection: widget.collection,
             ),

@@ -8,13 +8,11 @@ class TaskDetailsScreen extends StatefulWidget {
     super.key,
     required this.taskIndex,
     required this.editMode,
-    required this.documentID,
     required this.collection,
   });
 
   final int taskIndex;
   final bool editMode;
-  final String documentID;
   final CollectionReference collection;
 
   @override

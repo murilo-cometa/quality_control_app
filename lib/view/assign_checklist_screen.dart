@@ -103,7 +103,6 @@ class _AssignChecklistScreenState extends State<AssignChecklistScreen> {
                   MaterialPageRoute(
                     builder: (context) => ChecklistWithDb(
                       editMode: true,
-                      documentID: id,
                       checklistName: checklistName,
                       collection: _checklistsCollection.doc(id).collection('tasks'),
                     ),
